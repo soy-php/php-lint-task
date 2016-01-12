@@ -56,13 +56,7 @@ class RunTask implements TaskInterface
                 $this->climate->dim('Running PHP Lint without caching');
             }
         } else {
-            $cache = [];
-            if (is_file($this->cacheFile)) {
-                $cache = json_decode(file_get_contents($this->cacheFile), true);
-                if (!is_array($cache)) {
-                    $cache = [];
-                }
-            }
+            $cache = $this->getCache();
         }
 
         /** @var SplFileInfo $file */
@@ -85,7 +79,7 @@ class RunTask implements TaskInterface
         }
 
         if ($this->isCacheEnabled()) {
-            file_put_contents($this->cacheFile, json_encode($cache));
+            $this->setCache($cache);
             if ($this->isVerbose()) {
                 $this->climate->dim('Cache written to file ' . $this->cacheFile);
             }
@@ -162,6 +156,32 @@ class RunTask implements TaskInterface
     {
         $this->verbose = $verbose;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCache()
+    {
+        $cache = [];
+
+        if (is_file($this->cacheFile)) {
+            $cache = json_decode(file_get_contents($this->cacheFile), true);
+
+            if (!is_array($cache)) {
+                $cache = [];
+            }
+        }
+
+        return $cache;
+    }
+
+    /**
+     * @param array $cache
+     */
+    protected function setCache(array $cache)
+    {
+        file_put_contents($this->cacheFile, json_encode($cache));
     }
 
     /**
