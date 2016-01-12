@@ -1,0 +1,25 @@
+{
+  "name": "soy-php/php-lint-task",
+  "description": "PHP Lint task for Soy",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rick Kuipers",
+      "email": "io@rskuipers.com"
+    }
+  ],
+  "require": {
+    "soy-php/soy": ">=0.1.0",
+    "symfony/finder": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Soy\\PhpLint\\": "src/Soy/PhpLint/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "0.1.x-dev"
+    }
+  }
+}
